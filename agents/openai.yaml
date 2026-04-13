@@ -1,0 +1,4 @@
+interface:
+  display_name: "Baidu Netdisk MCP"
+  short_description: "Configure and operate the Baidu Netdisk MCP."
+  default_prompt: "Use $baidu-netdisk-mcp to configure, validate, and operate a Baidu Netdisk MCP setup."
