@@ -45,7 +45,11 @@ def replace_sse_url(content: str, server_name: str, token: str, sse_base: str) -
         rf'(\[mcp_servers\.{server}\][\s\S]*?url\s*=\s*")[^"]+(")',
         re.S,
     )
-    updated, count = pattern.subn(rf"\1{sse_base}{token}\2", content, count=1)
+    updated, count = pattern.subn(
+        lambda match: f"{match.group(1)}{sse_base}{token}{match.group(2)}",
+        content,
+        count=1,
+    )
     if count != 1:
         raise ValueError(f"could not update url in [mcp_servers.{server_name}]")
     return updated
@@ -62,7 +66,11 @@ def replace_upload_token(
         rf'(\[mcp_servers\.{server}\.env\][\s\S]*?{re.escape(env_key)}\s*=\s*")[^"]+(")',
         re.S,
     )
-    updated, count = pattern.subn(rf"\1{token}\2", content, count=1)
+    updated, count = pattern.subn(
+        lambda match: f"{match.group(1)}{token}{match.group(2)}",
+        content,
+        count=1,
+    )
     if count != 1:
         raise ValueError(
             f"could not update {env_key} in [mcp_servers.{server_name}.env]"
